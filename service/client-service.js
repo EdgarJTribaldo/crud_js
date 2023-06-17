@@ -6,7 +6,7 @@
 // Update - PUT/PATCH
 // Delete - DELETE
 
-const listaClientes = () => {
+const listaClientes = () => 
  /* const promise = new Promise((resolve, reject) => {
     const http = new XMLHttpRequest();
     // Abrir http (metodo,url );
@@ -25,10 +25,8 @@ const listaClientes = () => {
   });
   return promise; */
 
-  return fetch("http://localhost:3000/perfil/").then( respuesta => {
-    return respuesta.json();
-  });
-};
+  fetch("http://localhost:3000/perfil").then((respuesta) => respuesta.json());
+
 
 
 
@@ -54,16 +52,54 @@ const newUser = (registerUser) => {
     email: registerUser.email,
     id: uuid.v4()
   };
-  console.log(data);
- return fetch("http://localhost:3000/perfil/", {  
+  return fetch("http://localhost:3000/perfil", {  
   method: "POST",
   headers: {
-  "Content-Type": "application/json"},
+  "Content-Type": "application/json",
+},
   body: JSON.stringify(data)
 })
 }
 
+// Eliminar persona 
+const eliminarUser = (id) => {
+  return fetch(`http://localhost:3000/perfil/${id}` , {
+    method: "DELETE",
+  });
+};
+
+
+// Editar miembro
+
+const editarMiembro = (data) => {
+  // Realizar solicitud PUT o PATCH al servidor
+  fetch(`http://localhost:3000/${id}`, {
+    method: 'PUT', // O utiliza 'PATCH' si corresponde
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(data)
+  })
+  .then(response => {
+    if (response.ok) {
+      // El miembro se editó correctamente
+      console.log('El miembro se editó correctamente');
+      // Aquí puedes realizar cualquier otra acción que desees después de la edición
+    } else {
+      // Error al editar el miembro
+      console.error('Error al editar el miembro');
+    }
+  })
+  .catch(error => {
+    // Error de conexión o de otro tipo
+    console.error('Error en la solicitud de actualización:', error);
+  });
+};
+
+
 export const clienteServices = {
   listaClientes,
   newUser,
+  eliminarUser,
+  editarMiembro,
 }
